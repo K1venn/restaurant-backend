@@ -5,7 +5,7 @@ import {
   MaxLength,
   Validate,
 } from 'class-validator';
-import { UserEmailExistPipe } from '../validations/user-email-exist.pipe';
+import { UniqueEmailPipe } from '../validations/user-email-exist.pipe';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -16,7 +16,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   @IsEmail()
-  @Validate(UserEmailExistPipe)
+  @Validate(UniqueEmailPipe)
   email: string;
 
   @IsNotEmpty()

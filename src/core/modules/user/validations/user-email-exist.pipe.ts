@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 
 @Injectable()
-export class UserEmailExistPipe implements PipeTransform<any> {
+export class UniqueEmailPipe implements PipeTransform<any> {
   constructor(
     @InjectRepository(UserEntity)
     private readonly repository: Repository<UserEntity>,
