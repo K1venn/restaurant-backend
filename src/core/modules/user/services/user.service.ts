@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LoginDto } from '../../auth/dtos/login.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserEntity } from '../entities/user.entity';
 
@@ -16,9 +15,7 @@ export class UserService {
     return await this.repository.save(data);
   }
 
-  async findOne(credentials: LoginDto): Promise<UserEntity> {
-    const { email } = credentials;
-
+  async findOneByEmail(email: string): Promise<UserEntity> {
     return await this.repository.findOne({
       where: { email },
       select: ['id', 'name', 'email', 'password', 'role'],
