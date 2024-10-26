@@ -13,8 +13,11 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(data: RegisterDto): Promise<UserEntity> {
-    const user = await this.userService.findOneByEmail(data.email);
+  async register(data: RegisterDto): Promise<Omit<UserEntity, 'password'>> {
+    const user = await this.userService.findOne({
+      where: { email: data.email },
+      select: ['password'],
+    });
 
     if (user)
       throw new BadRequestException({ message: 'Email already in use' });
@@ -27,14 +30,18 @@ export class AuthService {
   }
 
   async login(data: LoginDto): Promise<any> {
-    const user = await this.userService.findOneByEmail(data.email);
+    const user = await this.userService.findOne({
+      where: { email: data.email },
+      select: ['name', 'email', 'password', 'role'],
+    });
+
     const isValidPassword = bcrypt.compareSync(data.password, user.password);
 
     if (!isValidPassword)
       throw new BadRequestException({ message: 'Email or password incorrect' });
 
     const payload = { name: user.name, email: user.email, role: user.role };
-    const accessToken = this.jwtService.signAsync(payload);
+    const accessToken = this.jwtService.sign(payload);
 
     return { accessToken };
   }
