@@ -1,4 +1,4 @@
-import { Roles } from 'src/common/enums/Roles.enum';
+import { RolesEnum } from 'src/common/enums/Roles.enum';
 import {
   Column,
   CreateDateColumn,
@@ -21,8 +21,8 @@ export class UserEntity {
   @Column({ select: false })
   password: string;
 
-  @Column({ type: 'enum', enum: Roles, default: Roles.GUEST })
-  role: Roles;
+  @Column({ type: 'enum', enum: RolesEnum, default: RolesEnum.GUEST })
+  role: RolesEnum;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -5,16 +5,16 @@ import { AuthService } from './services/auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly service: AuthService) {}
 
   @Post('signup')
   async register(@Body() credentials: RegisterDto): Promise<any> {
-    return await this.authService.register(credentials);
+    return await this.service.register(credentials);
   }
 
   @Post('signin')
   @HttpCode(HttpStatus.OK)
   async login(@Body() credentials: LoginDto): Promise<any> {
-    return await this.authService.login(credentials);
+    return await this.service.login(credentials);
   }
 }

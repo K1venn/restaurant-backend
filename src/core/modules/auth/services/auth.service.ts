@@ -32,7 +32,7 @@ export class AuthService {
   async login(data: LoginDto): Promise<any> {
     const user = await this.userService.findOne({
       where: { email: data.email },
-      select: ['name', 'email', 'password', 'role'],
+      select: ['id', 'name', 'email', 'password', 'role'],
     });
 
     const isValidPassword = bcrypt.compareSync(data.password, user.password);
@@ -40,7 +40,12 @@ export class AuthService {
     if (!isValidPassword)
       throw new BadRequestException({ message: 'Email or password incorrect' });
 
-    const payload = { name: user.name, email: user.email, role: user.role };
+    const payload = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
     const accessToken = this.jwtService.sign(payload);
 
     return { accessToken };
